@@ -18,19 +18,20 @@ public class TodoService {
     private TodoRepository repository;
 
     // Todo 엔티티를 받아서 검증 후 생성
-    public Optional<TodoEntity> create(final TodoEntity entity) {
+    public List<TodoEntity> create(final TodoEntity entity) {
         //Validations
         validate(entity);
         repository.save(entity);
         // ID에 해다하는 엔티티를 넘겨줌.
-        return repository.findById(entity.getId());
+        //return repository.findById(entity.getId());
+        return repository.findByUserId(entity.getUserId());
     }
 
     public List<TodoEntity> retrieve(final String userId){
         return repository.findByUserId(userId);
     }
 
-    public Optional<TodoEntity>update(final TodoEntity entity){
+    public List<TodoEntity>update(final TodoEntity entity){
         //Validations
         validate(entity);
         if(repository.existsById(entity.getId()))
@@ -41,9 +42,11 @@ public class TodoService {
         {
             throw new RuntimeException("Unknown id");
         }
-        return repository.findById(entity.getId());
+        return repository.findByUserId(entity.getUserId());
     }
 
+
+    /** 이 부분은 사용안함
     public Optional<TodoEntity> updateTodo(final TodoEntity entity){
         //Validations
         validate(entity);
@@ -60,6 +63,7 @@ public class TodoService {
 
         return repository.findById(entity.getId());
     }
+     */
 
     public List<TodoEntity> delete(final TodoEntity entity){
         if(repository.existsById(entity.getId())){

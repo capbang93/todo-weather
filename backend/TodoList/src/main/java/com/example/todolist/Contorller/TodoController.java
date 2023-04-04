@@ -44,7 +44,7 @@ public class TodoController {
             // service.create 를 통해 repository에 entity를 저장한다.
             // service.create를 통해서 반환되는 값은, 해당 id와 일치하는 entitiy가 반환된다.
             // 이 때 넘어오는 값이 없을 수도 있으므로 List가 아니라 Optional를 사용한다.
-            Optional<TodoEntity> entities = service.create(entity);
+            List<TodoEntity> entities = service.create(entity);
             log.info("Log:service.create OK!");
 
             // entities를 DTOs로 스트림 변환한다.
@@ -92,7 +92,7 @@ public class TodoController {
             entity.setUserId("temporary-userId");
 
             //service.create를 통해 repository에 entity를 저장한다.
-            Optional<TodoEntity> entities = service.update(entity);
+            List<TodoEntity> entities = service.update(entity);
 
             //entities를 dtos로 스트림 변환한다.
             List<TodoDTO> dtos = entities.stream().map(TodoDTO::new).collect(Collectors.toList());
@@ -119,7 +119,7 @@ public class TodoController {
             entity.setUserId(userId);
 
             //service.create를 통해 repository에 entity를 저장한다.
-            Optional<TodoEntity> entities = service.updateTodo(entity);
+            List<TodoEntity> entities = service.update(entity);
 
             // entities를 dtos로 스트림 변환한다.
             List<TodoDTO> dtos = entities.stream().map(TodoDTO::new).collect(Collectors.toList());

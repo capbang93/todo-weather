@@ -31,5 +31,4 @@ public class UserEntity {
 
     @Column(nullable = false)
     private String password;
-
 }
