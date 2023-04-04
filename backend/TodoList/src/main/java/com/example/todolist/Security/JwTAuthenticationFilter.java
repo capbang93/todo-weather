@@ -20,7 +20,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.security.Security;
+
 
 
 /** 서블릿 필터에 대응하는 Spring Security Filters로 JWT인증을 구현*/
@@ -39,7 +39,7 @@ public class JwTAuthenticationFilter extends OncePerRequestFilter {
             log.info("Filter is running");
 
             if (token != null && !token.equalsIgnoreCase("null")) {
-                String userId = tokenProvider.vaildateAndGetUserId(token);
+                String userId = tokenProvider.validateAndGetUserId(token);
                 log.info("인증된 유저 id : " + userId);
                 AbstractAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userId, null, AuthorityUtils.NO_AUTHORITIES);
 
