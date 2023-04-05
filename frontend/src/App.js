@@ -6,40 +6,58 @@ import { Paper, List, Container } from "@material-ui/core";
 import AddTodo from './AddTodo';
 
 //함수형 방식
-// function App(){
-//   const items =  [
-//     { id: 0, title: "Todo 1", done: false },
-//     { id: 1, title: "Todo 2", done: false },
-//   ];
-//   var todoList = items.length > 0 && (
-//     // 자바스크립트가 제공하는 map 함수를 이용해서 배열을 반복해 <Todo/> 컴포넌트를 여러 개 생성한다.
-//     <Paper style={{ margin: 16 }}>
-//       <List>
-//         {items.map((item, idx) => (
-//           <Todo item={item} key={item.id} />
-//         ))}
-//       </List>
-//     </Paper>
-//   );
 
-//   function add(item){
-//     // 굳이 const 선언을 다시 해주어야할까?
+// function App() {
+//   const [items, setItems] = useState([
+//     { id: 0, title: "Todo 1 ", done: true },
+//     { id: 1, title: "Todo 2 ", done: false },
+//   ]);
+  
+//   const [todoItems, setTodoItems] = useState("");
+
+//   // add 함수 추가
+//   const add = (item) => {
 //     const thisItems = items;
-//     items.id = "ID-"+ thisItems.length; //key를 위한 id 추가
+//     item.id = "ID-" + thisItems.length;//key를 위한 id 추가
 //     item.done = false;
 //     thisItems.push(item);
-//     this.setState({items:thisItems}); //updateState ?? 함수형일때는 어떻게..?
-//     console.log("items",items);
+//     setItems(thisItems);
+//     setTodoItems(items.length > 0 && (
+//       <Paper style={{ margin: 16 }}>
+//         <List>
+//           {items.map((item, idx) => (
+//             <Todo item={item} key={item.id} />
+//           ))}
+//         </List>
+//       </Paper>
+//     ));
+//     console.log(items);
 //   }
+
+//   useEffect(() => {
+//     setTodoItems(items.length > 0 && (
+//       <Paper style={{ margin: 16 }}>
+//         <List>
+//           {items.map((item, idx) => (
+//             <Todo item={item} key={item.id} />
+//           ))}
+//         </List>
+//       </Paper>
+//     ))
+//   }, []);
 
 //   return (
 //     <div className="App">
 //       <Container maxWidth="md">
-//        <AddTodo add={add}/>
+//         <AddTodo add={add} />
+//         <div className="TodoList">{todoItems}</div>
 //       </Container>
-//       {todoList}</div>
-//   )
+//     </div>
+//   );
+
 // }
+
+// export default App;
 
 
 class App extends React.Component {
@@ -56,6 +74,8 @@ class App extends React.Component {
   }
 
   add = (item) =>{
+    useCallback("/todo")
+
     const thisItems = this.state.items;
     item.id = "ID-"+ thisItems.length; // key를 위한 ID추가
     item.done = false ;
