@@ -4,6 +4,8 @@ import './App.js'
 import Todo from './Todo';
 import { Paper, List, Container } from "@material-ui/core";
 import AddTodo from './AddTodo';
+import './App.css';
+import {call} from './service/ApiService'
 
 //함수형 방식
 

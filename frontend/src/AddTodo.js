@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { TextField, Paper, Button, Grid } from '@material-ui/core';
 
 
-class AddTodo extends Component {
+class AddTodo extends React.Component {
 
     constructor(props) {
         super(props);
@@ -12,11 +12,11 @@ class AddTodo extends Component {
 
     onInputChange = (e) => {
         // 타이틀만 변경해도 되는지 테스트 해보기 
-        const thisItems = this.state.item;
-        thisItems.title = e.target.value;
+        const thisItem = this.state.item;
+        thisItem.title = e.target.value;
         // 새롭게 생성한 thisItems를 통해서 item props를 변경
-        this.setState({ item: thisItems });
-        console.log(thisItems);
+        this.setState({ item: thisItem });
+        console.log(thisItem);
     }
 
     onButtonClick = () => {
@@ -49,7 +49,7 @@ class AddTodo extends Component {
                             color="secondary"
                             variant="outlined"
                             onClick={this.onButtonClick}>
-                            추가
+                            +
                         </Button>
                     </Grid>
                 </Grid>
