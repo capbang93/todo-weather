@@ -66,38 +66,34 @@ class App extends React.Component {
     super(props); // 매개변수 props 초기화
     this.state = {
       // item에 item.id, item.title, item.done 매개변수 이름과 값 할당
-      items: [
-        { id: "0", title: "Todo 1", done: false },
-        { id: 1, title: "Todo 2", done: false },
-      ],
+      items: [],
     };
   }
 
   add = (item) =>{
-    useCallback("/todo")
-
-    const thisItems = this.state.items;
-    item.id = "ID-"+ thisItems.length; // key를 위한 ID추가
-    item.done = false ;
-    thisItems.push(item);
-    // 새롭게 생성한 thisItems를 통해서 item props를 변경
-    this.setState({items: thisItems});
-    console.log("items:", this.state.items);
-  }  
-
-
-
-
+    call("/todo","POST",item).then((response) =>
+      this.setState({items:response.data})
+    );
+  }
+    
   //삭제 
   delete = (item)=>{
-    const thisItems = this.state.items;
-    const newItems = thisItems.filter(e => e.id !== item.id);
-    this.setState({items:newItems},()=>{
-    console.log("items",this.state.items);
-    });
+    call("/todo","DELETE",item).then((response) =>
+      this.setState({items:response.data})
+    );
   }
 
+  update = (item) =>{
+    call("/todo","PUT",item).then((response) =>
+    this.setState({items:response.data})
+    );
+  }
 
+  componentDidMount(){
+    call("/todo","GET",null).then((response) =>
+    this.setState({items:response.data})
+    );
+  }
 
   render() {
     // todoItems에 length가 0보다 크다면 true이므로 &&뒤에 값을 넘겨 준다.
@@ -108,7 +104,7 @@ class App extends React.Component {
       <Paper style={{ margin: 16 }}>
         <List>
           {this.state.items.map((item, idx) => (
-            <Todo item={item} key={item.id} delete={this.delete} />
+            <Todo item={item} key={item.id} delete={this.delete} update={this.update}/>
           ))}
         </List>
       </Paper>
@@ -118,8 +114,8 @@ class App extends React.Component {
     return (<div className="App">
       <Container maxWidth="md">
         <AddTodo add={this.add}/>
-      </Container>
       <div className='TodoList'>{todoItems}</div>
+      </Container>
       </div>
     
     );
