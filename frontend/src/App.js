@@ -1,5 +1,4 @@
 import React from 'react';
-import Hello from './Hello';
 import './App.js'
 import Todo from './Todo';
 import { Paper, List, Container } from "@material-ui/core";
