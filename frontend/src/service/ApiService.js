@@ -42,6 +42,32 @@ export function call(api, method, request){
         });
 }
 
+// 유저 정보 업데이트 전용 call
+export function call_user(api, method, request){
+    let headers = new Headers({
+        "Content-Type": "application/json",
+    });
+
+    const accessToken = localStorage.getItem("ACCESS_TOKEN");
+    if (accessToken)
+    {
+        headers.append("Authorization","Bearer " + accessToken);
+    }
+
+    let options = {
+        headers: headers,
+        url:API_BASE_URL + api,
+        method: method,
+    };
+
+    if(request){
+        options.body = JSON.stringify(request);
+    }
+    
+    return fetch(options.url, options)
+}
+
+
 //로그인을 위한 API 서비스 메소드 signin
 export function signin(userDTO){
     return call("/auth/signin","POST",userDTO)
@@ -76,7 +102,7 @@ export function signup(userDTO){
 // 회원 정보 수정 요청
 export function infoedit(userDTO){
     //info edit
-    return call("/auth/infoedit","POST",userDTO)
+    return call_user("/auth/infoedit","POST",userDTO)
     .then((response) =>{
         if(response.id){
             window.location.href ="/";

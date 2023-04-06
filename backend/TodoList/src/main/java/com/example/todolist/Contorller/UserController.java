@@ -51,6 +51,28 @@ public class UserController {
         }
     }
 
+    /** 회원정보 수정 */
+    @PostMapping("/infoedit")
+    public void edit_information(@RequestBody UserDTO userDTO) {
+
+            // 이전 유저 id 탐색
+            String before_userId = userService.getUserEntity(userDTO.getEmail().toString()).getId();
+
+            // 유저 id를 추가해서 Entity 생성
+            UserEntity update_user = UserEntity.builder()
+                    .id(before_userId)
+                    .email(userDTO.getEmail())
+                    .username(userDTO.getUsername())
+                    .password(passwordEncoder.encode(userDTO.getPassword()))
+                    .build();
+
+            // 유저 정보 업데이트하기
+            userService.updateUserEntity(update_user);
+    }
+
+
+
+
     @PostMapping("/signin")
     public ResponseEntity<?> authenticate(@RequestBody UserDTO userDTO){
         UserEntity user = userService.getByCredentials(
