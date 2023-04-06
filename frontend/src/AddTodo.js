@@ -1,63 +1,51 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { TextField, Paper, Button, Grid } from '@material-ui/core';
 
+function AddTodo({ add }){
+    const [item, setItem] = useState({ title: "" });
 
-class AddTodo extends React.Component {
-
-    constructor(props) {
-        super(props);
-        this.state = { item: { title: "" } };
-        this.add = props.add;
-    }
-
-    onInputChange = (e) => {
-        // 타이틀만 변경해도 되는지 테스트 해보기 
-        const thisItem = this.state.item;
+    const onInputChange = (e) => {
+        const thisItem = { ...item };
         thisItem.title = e.target.value;
-        // 새롭게 생성한 thisItems를 통해서 item props를 변경
-        this.setState({ item: thisItem });
+        setItem(thisItem);
         console.log(thisItem);
     }
 
-    onButtonClick = () => {
-        this.add(this.state.item);
-        this.setState({ item: { title: "" } })
+    const onButtonClick = () => {
+        add(item);
+        setItem({ title: "" });
     }
 
-    enterKeyEventHandler = (e) => {
-        if (e.key == "Enter") {
-            this.onButtonClick();
+    const enterKeyEventHandler = (e) => {
+        if (e.key === "Enter") {
+            onButtonClick();
         }
     }
 
-    render() {
-        return (
-            <Paper style={{ margine: 16, padding: 16 }}>
-                <Grid container>
-                    <Grid xs={11} md={11} item style={{ paddingRight: 16 }}>
-                        <TextField
-                            placeholder='Add Todo here'
-                            fullWidth
-                            onChange={this.onInputChange}
-                            value={this.state.item.title}
-                            onKeyPress={this.enterKeyEventHandler}
-                        />
-                    </Grid>
-                    <Grid xs={1} md={1} item>
-                        <Button
-                            fullWidth
-                            color="secondary"
-                            variant="outlined"
-                            onClick={this.onButtonClick}>
-                            +
-                        </Button>
-                    </Grid>
+    return (
+        <Paper style={{ margin: 16, padding: 16 }}>
+            <Grid container>
+                <Grid xs={11} md={11} item style={{ paddingRight: 16 }}>
+                    <TextField
+                        placeholder='할 일을 입력하세요!!'
+                        fullWidth
+                        onChange={onInputChange}
+                        value={item.title}
+                        onKeyPress={enterKeyEventHandler}
+                    />
                 </Grid>
-            </Paper>
-        )
-
-
-    }
+                <Grid xs={1} md={1} item>
+                    <Button
+                        fullWidth
+                        color="secondary"
+                        variant="outlined"
+                        onClick={onButtonClick}>
+                        +
+                    </Button>
+                </Grid>
+            </Grid>
+        </Paper>
+    )
 }
 
 export default AddTodo;
