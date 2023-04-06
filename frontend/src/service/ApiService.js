@@ -73,12 +73,28 @@ export function signup(userDTO){
             return Promise.reject(error);  
     });
 }
+// 회원 정보 수정 요청
+export function infoedit(userDTO){
+    //info edit
+    return call("/auth/infoedit","POST",userDTO)
+    .then((response) =>{
+        if(response.id){
+            window.location.href ="/";
+        }
+    });
+}
 
+
+export function infoedit_route(){
+    //info edit
+    window.location.href="/editinfo";
+}
 // 로그아웃
 export function signout(){
     //local 스토리지에서 토큰을 삭제
     localStorage.setItem("ACCESS_TOKEN",null);
     window.location.href="/";
 }
+
 
 //back24 front 14

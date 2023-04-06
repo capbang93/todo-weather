@@ -7,18 +7,24 @@ import {
     Container,
     Typography,
 } from "@material-ui/core";
-import { signup } from "./service/ApiService";
+import { infoedit } from "./service/ApiService";
 
-function SignUp(){
+function EditInfo(){
+    // submit 버튼 누를 시,
     const handleSubmit = (event) => {
         event.preventDefault();
 
+        // 새로운 데이터 저장
         const data = new FormData(event.target);
+
         const username = data.get("username");
         const email = data.get("email");
         const password = data.get("password");
-        signup({ email: email, username: username, password: password }).then(
+
+        // ApiService의 회원정보 수정 함수 호출
+        infoedit({ email: email, username: username, password: password }).then(
             (response) => {
+                // 재 로그인
                 window.location.href = "/login";
             }
         );
@@ -30,7 +36,7 @@ function SignUp(){
                 <Grid container spacing={2}>
                     <Grid item xs={12}>
                         <Typography component="h1" variant="h5">
-                            계정 생성
+                            사용자 정보 수정📙
                         </Typography>
                     </Grid>
                     <Grid item xs={12}>
@@ -76,20 +82,15 @@ function SignUp(){
                             variant="contained"
                             color="primary"
                         >
-                            계정생성
+                            수정 완료
                         </Button>
                     </Grid>
                 </Grid>
                 <Grid container justifyContent="flex-end">
-                    <Grid item>
-                        <Link href="/login" variant="body2">
-                            이미 계정이 있습니까? 로그인하세요.
-                        </Link>
-                    </Grid>
                 </Grid>
             </form>
         </Container>
     );
 };
 
-export default SignUp;
+export default EditInfo;

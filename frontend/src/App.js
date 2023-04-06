@@ -3,7 +3,7 @@ import Todo from './Todo';
 import AddTodo from './AddTodo';
 import { Paper, List, Container, Grid, Button, AppBar, Toolbar, Typography } from "@material-ui/core";
 import './App.css';
-import { call, signout } from './service/ApiService'
+import { call, signout, infoedit_route } from './service/ApiService'
 
 function App() {
   const [items, setItems] = useState([]);
@@ -68,6 +68,7 @@ const handleDeleteAll = () => {
             <Typography variant="h6">오늘의 할일</Typography>
           </Grid>
           <Grid item>
+          <Button color="inherit" onClick={infoedit_route}>회원정보 수정</Button>
             <Button color="inherit" onClick={signout}>로그아웃</Button>
           </Grid>
         </Grid>
@@ -89,7 +90,13 @@ const handleDeleteAll = () => {
           </Button>
         ))}
         {items.length > 0 && (
-          <Button onClick={handleDeleteAll}>전체 삭제</Button>
+              <Button onClick={handleDeleteAll} 
+                    variant="contained" 
+                    color="secondary"
+                    size="medium"
+                    style={{ marginLeft: '16px' }}>
+              전체 삭제⚡
+            </Button>
         )}
       </div>
     </div>
