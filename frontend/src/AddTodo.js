@@ -8,7 +8,7 @@ function AddTodo({ add }){
         const thisItem = { ...item };
         thisItem.title = e.target.value;
         setItem(thisItem);
-        console.log(thisItem);
+        //console.log(thisItem);
     }
 
     const onButtonClick = () => {

@@ -8,6 +8,8 @@ import { call, signout } from './service/ApiService'
 function App() {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(5);
 
   const add = (item) => {
     call("/todo", "POST", item).then((response) =>
@@ -34,10 +36,24 @@ function App() {
     });
   }, []);
 
-  var todoItems = items.length > 0 && (
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = items.slice(indexOfFirstItem, indexOfLastItem);
+
+// 전체 삭제
+const handleDeleteAll = () => {
+  if (items.length > 0) {
+    items.map((item, idx) => {
+      deleteItem(item);
+    });
+    setItems([]); // items 배열 전체를 삭제
+  }
+}
+
+  var todoItems = currentItems.length > 0 && (
     <Paper style={{ margin: 16 }}>
       <List>
-        {items.map((item, idx) => (
+        {currentItems.map((item, idx) => (
           <Todo item={item} key={item.id} delete={deleteItem} update={update} />
         ))}
       </List>
@@ -47,7 +63,7 @@ function App() {
   var navigationBar = (
     <AppBar position="static">
       <Toolbar>
-        <Grid justify='space-between' container>
+        <Grid justifyContent='space-between' container>
           <Grid item>
             <Typography variant="h6">오늘의 할일</Typography>
           </Grid>
@@ -66,6 +82,16 @@ function App() {
         <AddTodo add={add} />
         <div className='TodoList'>{todoItems}</div>
       </Container>
+      <div className='Pagination'>
+        {Array.from({ length: Math.ceil(items.length / itemsPerPage) }, (v, i) => (
+          <Button key={i+1} onClick={() => setCurrentPage(i+1)}>
+            {i+1}
+          </Button>
+        ))}
+        {items.length > 0 && (
+          <Button onClick={handleDeleteAll}>전체 삭제</Button>
+        )}
+      </div>
     </div>
   );
 
