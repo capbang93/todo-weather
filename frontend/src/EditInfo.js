@@ -95,5 +95,5 @@ function EditInfo(){
         </Container>
     );
 };
-//test init
+//test init3
 export default EditInfo;
