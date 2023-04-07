@@ -36,7 +36,7 @@ function EditInfo(){
                 <Grid container spacing={2}>
                     <Grid item xs={12}>
                         <Typography component="h1" variant="h5">
-                            사용자 정보 수정📙
+                            👨‍🎓 사용자 정보 수정
                         </Typography>
                     </Grid>
                     <Grid item xs={12}>
@@ -47,7 +47,7 @@ function EditInfo(){
                             required
                             fullWidth
                             id="username"
-                            label="사용자 이름"
+                            label="수정 할 이름 입력"
                             autoFocus
                         />
                     </Grid>
@@ -59,8 +59,11 @@ function EditInfo(){
                             required
                             fullWidth
                             id="email"
-                            label="이메일 주소"
-                            autoFocus
+                            label="내 이메일(아이디)"
+                            defaultValue={localStorage.getItem("email")}
+                            InputProps={{
+                              readOnly: true,
+                            }}
                         />
                     </Grid>
                     <Grid item xs={12}>
@@ -71,7 +74,7 @@ function EditInfo(){
                             required
                             fullWidth
                             id="password"
-                            label="패스워드"
+                            label="수정 할 패스워드 입력"
                             autoFocus
                         />
                     </Grid>

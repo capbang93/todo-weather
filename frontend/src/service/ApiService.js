@@ -75,6 +75,8 @@ export function signin(userDTO){
         if(response.token){
             //local 스토리지에 토큰 저장
             localStorage.setItem("ACCESS_TOKEN",response.token);
+            // 이메일을 로컬 스토리지에 저장
+            localStorage.setItem("email",userDTO.email);
             //token이 존재하는 경우 todo화면으로 이동
             window.location.href ="/";
         }
