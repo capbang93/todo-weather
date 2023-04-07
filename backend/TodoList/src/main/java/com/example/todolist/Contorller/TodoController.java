@@ -112,7 +112,9 @@ public class TodoController {
 
     @PutMapping
     public ResponseEntity<?> updateTodo(@AuthenticationPrincipal String userId, @RequestBody TodoDTO dto) {
+        System.out.println("업데이트 수행 됨"+dto.isDone());
         try {
+            log.debug("업데이트 수행됨" + dto.isDone());
             //dto를 이용해 테이블에 저장하기 위한 enitiy를 생성한다.
             TodoEntity entity = TodoDTO.toEntity(dto);
             // entitiy userId를 임시로 지정한다.

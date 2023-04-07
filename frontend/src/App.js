@@ -29,6 +29,7 @@ function App() {
     );
   }
 
+
   useEffect(() => {
     call("/todo", "GET", null).then((response) => {
       setItems(response.data);
@@ -43,10 +44,16 @@ function App() {
 // 전체 삭제
 const handleDeleteAll = () => {
   if (items.length > 0) {
+    
     items.map((item, idx) => {
-      deleteItem(item);
+      console.log(item.done);
+      if(item.done == true)
+      {
+        console.log("트루 삭제")
+        deleteItem(item);
+      }
     });
-    setItems([]); // items 배열 전체를 삭제
+    //setItems([]); // items 배열 전체를 삭제
   }
 }
 

@@ -110,6 +110,17 @@ export function infoedit(userDTO){
     });
 }
 
+// //TodoDTO의 체크박스 내용 수정
+// export function todoedit(todoDTO){
+//     //info edit
+//     return call_user("/todo/todoedit","POST",todoDTO)
+//     .then((response) =>{
+//         if(response.id){
+//             window.location.href ="/";
+//         }
+//     });
+// }
+
 
 export function infoedit_route(){
     //info edit
