@@ -29,18 +29,16 @@ function Todo(props){
         setItem(thisItem);
     }
 
-    const checkboxEventHandler = (e) => {
+    function checkboxEventHandler(){
         const thisItem = { ...item };
         thisItem.done = thisItem.done ? false : true;    
         setItem(thisItem);
         setReadOnly(true);
-        // why? -> 비동기기 때문
-        //props.update(item);
+
         props.update(thisItem);
-        console.log("DB에 체크박스 수정사항 반영됨!");
-        // 여기서 db쪽에 done을 전송시켜 주고 있었음.!
-        
+        props.calculate();
     }
+
 
     return (
         <ListItem>

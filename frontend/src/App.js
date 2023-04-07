@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import Todo from './Todo';
 import AddTodo from './AddTodo';
-import { Paper, List, Container, Grid, Button, AppBar, Toolbar, Typography } from "@material-ui/core";
+import { Paper, List, Container, Grid, Button, AppBar, Toolbar, Typography} from "@material-ui/core";
+import Rating from '@mui/material/Rating';
 import './App.css';
 import { call, signout, infoedit_route } from './service/ApiService'
 
@@ -10,6 +11,7 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(5);
+  const [itemcomplete, setItemComplete] = useState(0);
 
   const add = (item) => {
     call("/todo", "POST", item).then((response) =>
@@ -53,15 +55,36 @@ const handleDeleteAll = () => {
         deleteItem(item);
       }
     });
-    //setItems([]); // items 배열 전체를 삭제
   }
 }
 
+// 완료도 계산
+const CalculateAll = () => {
+  if (items.length > 0) {
+    console.log(items.length)
+    let completedItemsCount = 0; 
+    items.map((item, idx) => {
+      console.log(item.done);
+      if(item.done === true) 
+      {
+        completedItemsCount++; 
+      }
+    });
+
+    // Calculate the completion percentage
+    const completionPercentage = (completedItemsCount / items.length) * 100;
+    setItemComplete(completionPercentage);
+    console.log(`Completion Percentage: ${completionPercentage}%`);
+
+  }
+}
+
+  // Todo 아이템 계산
   var todoItems = currentItems.length > 0 && (
     <Paper style={{ margin: 16 }}>
       <List>
         {currentItems.map((item, idx) => (
-          <Todo item={item} key={item.id} delete={deleteItem} update={update} />
+          <Todo item={item} key={item.id} delete={deleteItem} update={update} calculate={CalculateAll} />
         ))}
       </List>
     </Paper>
@@ -88,6 +111,9 @@ const handleDeleteAll = () => {
       {navigationBar}
       <Container maxWidth="md">
         <AddTodo add={add} />
+        {/* <Rating name="half-rating-read" defaultValue={2.5} precision={0.5} readOnly /> */}
+        <Typography component='legend'>Todo 완료율 : {itemcomplete}%</Typography>
+        <Rating name='read-only' value={itemcomplete/20} precision={0.5} readOnly />
         <div className='TodoList'>{todoItems}</div>
       </Container>
       <div className='Pagination'>
