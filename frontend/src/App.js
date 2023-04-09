@@ -5,6 +5,7 @@ import { Paper, List, Container, Grid, Button, AppBar, Toolbar, Typography} from
 import Rating from '@mui/material/Rating';
 import './App.css';
 import { call, signout, infoedit_route } from './service/ApiService'
+import Weather from './Weathers';
 
 function App() {
   const [items, setItems] = useState([]);
@@ -12,6 +13,7 @@ function App() {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(5);
   const [itemcomplete, setItemComplete] = useState(0);
+
 
   const add = (item) => {
     call("/todo", "POST", item).then((response) =>
@@ -38,6 +40,22 @@ function App() {
       setLoading(false);
     });
   }, []);
+
+  
+  useEffect(() => {
+    // items 업데이트 이후 CalculateAll 함수 호출
+    if (items.length > 0) {
+      CalculateAll();
+    }
+  }, [items]);
+
+  // 아이템이 전부 완료되면 축하메세지 출력
+  useEffect(() => {
+    // items 업데이트 이후 CalculateAll 함수 호출
+    if (itemcomplete == 100) {
+      alert('축하드립니다!\n오늘의 할일을 전부 완료하셨군요!')
+    }
+  }, [itemcomplete]);
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -71,7 +89,7 @@ const CalculateAll = () => {
       }
     });
 
-    // Calculate the completion percentage
+    // Calculate 
     const completionPercentage = (completedItemsCount / items.length) * 100;
     setItemComplete(completionPercentage);
     console.log(`Completion Percentage: ${completionPercentage}%`);
@@ -84,7 +102,7 @@ const CalculateAll = () => {
     <Paper style={{ margin: 16 }}>
       <List>
         {currentItems.map((item, idx) => (
-          <Todo item={item} key={item.id} delete={deleteItem} update={update} calculate={CalculateAll} />
+          <Todo item={item} key={item.id} delete={deleteItem} update={update} />
         ))}
       </List>
     </Paper>
@@ -110,10 +128,11 @@ const CalculateAll = () => {
     <div>
       {navigationBar}
       <Container maxWidth="md">
+      <Weather/>
+        <Typography component='legend'><h3>📜오늘의 Todo 진행도 : {itemcomplete.toFixed(1)}%</h3></Typography>
+        <Rating name='read-only' value={itemcomplete/20} precision={0.5} readOnly />
         <AddTodo add={add} />
         {/* <Rating name="half-rating-read" defaultValue={2.5} precision={0.5} readOnly /> */}
-        <Typography component='legend'>Todo 완료율 : {itemcomplete}%</Typography>
-        <Rating name='read-only' value={itemcomplete/20} precision={0.5} readOnly />
         <div className='TodoList'>{todoItems}</div>
       </Container>
       <div className='Pagination'>
@@ -128,7 +147,7 @@ const CalculateAll = () => {
                     color="secondary"
                     size="medium"
                     style={{ marginLeft: '16px' }}>
-              전체 삭제⚡
+              완료한 항목 삭제⚡
             </Button>
         )}
       </div>
